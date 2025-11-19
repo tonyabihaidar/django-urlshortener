@@ -4,22 +4,109 @@
 <h2 class="title is-4">Link details</h2>
 
 <div class="box">
-    <p><strong>Short URL:</strong>
-        <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+    <p class="mb-2"><strong>Short URL:</strong></p>
+
+    <div class="field has-addons">
+        <div class="control is-expanded">
+            <input
+                id="short-url-input"
+                class="input"
+                type="text"
+                value="{{ short_url }}"
+                readonly
+            >
+        </div>
+        <div class="control">
+            <button type="button" class="button is-link" onclick="copyShortUrl()">
+                Copy
+            </button>
+        </div>
+    </div>
+    <p class="help is-success" id="copy-feedback" style="display:none;">
+        Copied to clipboard!
     </p>
-    <p><strong>Original URL:</strong>
+
+    <p class="mt-4">
+        <strong>Original URL:</strong>
         <a href="{{ short.target_url }}" target="_blank">{{ short.target_url }}</a>
     </p>
-    <p><strong>Clicks:</strong> {{ short.clicks }}</p>
-    <p><strong>Created at:</strong> {{ short.created_at }}</p>
+
+    <p class="mt-1">
+        <strong>Created at:</strong> {{ short.created_at }}
+    </p>
 </div>
 
 <h3 class="title is-5">QR Code</h3>
 <div class="box" style="max-width: 220px;">
-    <img src="{{ qr_url }}" alt="QR code for {{ short_url }}">
+    <figure class="image">
+        <img id="qr-img" src="{{ qr_url }}" alt="QR code for {{ short_url }}">
+    </figure>
 </div>
 
-<p>
-    <a class="button is-link" href="{% url 'shortener:home' %}">Back</a>
-</p>
+<div class="field is-grouped">
+    <div class="control">
+        <button type="button" class="button is-link" onclick="shareQrCode()">
+            Share QR code
+        </button>
+    </div>
+    <div class="control">
+        <a class="button is-light" href="{% url 'shortener:home' %}">Back</a>
+    </div>
+</div>
+
+<script>
+    function copyShortUrl() {
+        const input = document.getElementById('short-url-input');
+        const feedback = document.getElementById('copy-feedback');
+        if (!input) return;
+
+        // Try using the Clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(input.value)
+                .then(() => {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                        feedback.textContent = 'Copied to clipboard!';
+                        setTimeout(() => {
+                            feedback.style.display = 'none';
+                        }, 2000);
+                    }
+                })
+                .catch(() => {
+                    alert('Copy failed. Please copy it manually.');
+                });
+        } else {
+            // Fallback for older browsers
+            input.select();
+            document.execCommand('copy');
+            if (feedback) {
+                feedback.style.display = 'block';
+                feedback.textContent = 'Copied to clipboard!';
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 2000);
+            }
+        }
+    }
+
+    function shareQrCode() {
+        const qrImg = document.getElementById('qr-img');
+        if (!qrImg) return;
+        const qrUrl = qrImg.src;
+
+        // If the browser supports Web Share API
+        if (navigator.share) {
+            navigator.share({
+                title: 'QR code for my short URL',
+                text: 'Here is the QR code for my short link.',
+                url: qrUrl
+            }).catch(() => {
+                // user canceled or share failed, no need to alert
+            });
+        } else {
+            // Fallback: open QR in new tab (user can share/download from there)
+            window.open(qrUrl, '_blank');
+        }
+    }
+</script>
 {% endblock %}
