@@ -1,0 +1,73 @@
+{% extends "shortener/base.html" %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-half">
+        <h2 class="title is-4">Shorten a URL</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">{{ form.target_url.label }}</label>
+                <div class="control">
+                    {{ form.target_url }}
+                </div>
+                {% if form.target_url.errors %}
+                    <p class="help is-danger">{{ form.target_url.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field">
+                <label class="label">{{ form.custom_slug.label }}</label>
+                <div class="control">
+                    {{ form.custom_slug }}
+                </div>
+                {% if form.custom_slug.errors %}
+                    <p class="help is-danger">{{ form.custom_slug.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" type="submit">
+                        Shorten
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="column is-half">
+        <h2 class="title is-4">Recent links</h2>
+        {% if latest_links %}
+            <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Short</th>
+                    <th>Target</th>
+                    <th>Clicks</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for link in latest_links %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'shortener:detail' slug=link.slug %}">
+                                {{ base_url }}/{{ link.slug }}
+                            </a>
+                        </td>
+                        <td style="max-width: 280px; overflow-wrap: anywhere;">
+                            <a href="{{ link.target_url }}" target="_blank">
+                                {{ link.target_url }}
+                            </a>
+                        </td>
+                        <td>{{ link.clicks }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No links yet. Create one!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
