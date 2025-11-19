@@ -1,10 +1,7 @@
 # 🚀 URL Shortener & QR Generator
 ### A Modern, Cloud-Deployed, Full-Stack Django Web App
 
-Welcome to **URL Shortener & QR**, a fully featured, production-ready web application built with **Django**, designed to shorten long URLs, generate QR codes, create custom vanity links, and offer private analytics for logged-in users — all deployed seamlessly on **Microsoft Azure App Service** with CI/CD.
-
-This project began as a simple academic exercise…  
-…then evolved into a polished, secure, cloud-native microservice that can genuinely be used by real users.
+Welcome to **QURL**, a fully featured, production-ready web application built with **Django**, designed to shorten long URLs, generate QR codes, create custom vanity links, and offer private analytics for logged-in users — all deployed seamlessly on **Microsoft Azure App Service** with CI/CD.
 
 ---
 
@@ -23,7 +20,7 @@ Try it here:
 - Automatic conflict checking.
 
 ### 👤 User Accounts & Dashboards
-- Secure sign up / login / logout.
+- Secure sign up / login/logout.
 - Each user has **private access** to their own saved links.
 - See creation dates & (optional) analytics.
 
@@ -33,10 +30,6 @@ Try it here:
   - Download QR code as PNG  
   - Share QR code through mobile share API  
   - Reuse the QR anywhere (flyers, posters, websites)
-
-### 📊 Analytics
-- Per-link click tracking  
-- User-specific dashboard  
 
 ### 🎨 Modern UI
 Built with **Bulma CSS** for clean, mobile-friendly pages:
@@ -84,37 +77,6 @@ Built with **Bulma CSS** for clean, mobile-friendly pages:
 - `screenshots/home.png`
 - `screenshots/my_links.png`
 - `screenshots/details.png`
-
----
-
-# 📂 Project Structure
-
-```
-root/
-│
-├── shortener/
-│   ├── models.py
-│   ├── views.py
-│   ├── forms.py
-│   ├── urls.py
-│   └── templates/shortener/
-│
-├── accounts/
-│   ├── views.py
-│   ├── urls.py
-│   └── templates/accounts/
-│
-├── static/
-├── urlshortener/
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-│
-├── .env
-├── requirements.txt
-├── manage.py
-└── README.md
-```
 
 ---
 
@@ -188,47 +150,3 @@ DJANGO_CSRF_TRUSTED_ORIGINS=https://urlshortener-xxxx.azurewebsites.net
    `https://urlshortener-xxxx.azurewebsites.net/`
 
 ---
-
-# 🎯 Why This Project Matters
-
-This application shows strong skills in:
-
-- Django backend engineering  
-- Authentication & authorization  
-- Dynamic routing & redirect logic  
-- QR code generation  
-- Frontend design with Bulma  
-- Cloud deployment (Azure)  
-- CI/CD with GitHub Actions  
-- Security & environment management  
-- Building production-ready software  
-
-Perfect for:
-- Portfolio
-- Internship applications
-- Cloud/DevOps or software engineering roles
-- University project submissions
-
----
-
-# 🚧 Future Enhancements
-
-- Expiring links  
-- Password-protected links  
-- Visit analytics dashboard (geo, device, referrer)  
-- REST API for programmatic link creation  
-- Theme-customizable QR codes  
-- Bulk upload CSV → multiple links  
-- Dark mode  
-
----
-
-# 🤝 Contributions
-
-Pull requests and ideas are welcome!
-
----
-
-# 📄 License
-
-MIT License.
