@@ -1,4 +1,4 @@
-# 🚀 URL Shortener & QR Generator
+# 🚀 QURL: URL Shortener & QR Generator
 ### A Modern, Cloud-Deployed, Full-Stack Django Web App
 
 Welcome to **QURL**, a fully featured, production-ready web application built with **Django**, designed to shorten long URLs, generate QR codes, create custom vanity links, and offer private analytics for logged-in users — all deployed seamlessly on **Microsoft Azure App Service** with CI/CD.
@@ -71,12 +71,20 @@ Built with **Bulma CSS** for clean, mobile-friendly pages:
 
 # 📸 Screenshots
 
-> Add your screenshots in a `/screenshots` folder and link them here:
-- `screenshots/login.png`
-- `screenshots/signup.png`
-- `screenshots/home.png`
-- `screenshots/my_links.png`
-- `screenshots/details.png`
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Signup Page
+![Signup Page](screenshots/signup.png)
+
+### Home / Shorten URL Page
+![Home Page](screenshots/home.png)
+
+### My Links Dashboard
+![My Links](screenshots/my_links.png)
+
+### Link Details Page
+![Details Page](screenshots/URL_Details.png)
 
 ---
 
