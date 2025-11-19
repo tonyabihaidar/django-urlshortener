@@ -5,12 +5,45 @@
     <title>URL Shortener & QR Generator</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-</head>
+<style>
+  .form-card {
+      max-width: 480px;
+  }
+  .form-card .field + .field {
+      margin-top: 1rem;
+  }
+  .help ul {
+      margin-top: 0.25rem;
+      margin-left: 1.25rem;
+  }
+</style>
+
+        </head>
 <body>
 <section class="section">
     <div class="container">
-        <h1 class="title">URL Shortener & QR</h1>
-        <p class="subtitle">Create short links and QR codes easily.</p>
+        <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h1 class="title">URL Shortener & QR</h1>
+                </div>
+                <div class="level-item">
+                    <p class="subtitle">Create short links and QR codes easily.</p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    {% if user.is_authenticated %}
+                        <span class="mr-3">Hi, {{ user.username }}!</span>
+                        <a class="button is-light mr-2" href="{% url 'shortener:my_links' %}">My links</a>
+                        <a class="button is-danger is-light" href="{% url 'shortener:logout' %}">Logout</a>
+                    {% else %}
+                        <a class="button is-light mr-2" href="{% url 'shortener:login' %}">Login</a>
+                        <a class="button is-primary is-light" href="{% url 'shortener:signup' %}">Sign up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
         <hr>
         {% block content %}{% endblock %}
     </div>

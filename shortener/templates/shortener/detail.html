@@ -39,11 +39,19 @@
 <h3 class="title is-5">QR Code</h3>
 <div class="box" style="max-width: 220px;">
     <figure class="image">
-        <img id="qr-img" src="{{ qr_url }}" alt="QR code for {{ short_url }}">
+        <img id="qr-img"
+             src="{{ qr_url }}"
+             data-slug="{{ short.slug }}"
+             alt="QR code for {{ short_url }}">
     </figure>
 </div>
 
 <div class="field is-grouped">
+    <div class="control">
+        <button type="button" class="button is-info" onclick="downloadQrCode()">
+            Download QR
+        </button>
+    </div>
     <div class="control">
         <button type="button" class="button is-link" onclick="shareQrCode()">
             Share QR code
@@ -60,7 +68,6 @@
         const feedback = document.getElementById('copy-feedback');
         if (!input) return;
 
-        // Try using the Clipboard API
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(input.value)
                 .then(() => {
@@ -76,7 +83,6 @@
                     alert('Copy failed. Please copy it manually.');
                 });
         } else {
-            // Fallback for older browsers
             input.select();
             document.execCommand('copy');
             if (feedback) {
@@ -89,22 +95,30 @@
         }
     }
 
+    function downloadQrCode() {
+        const qrImg = document.getElementById('qr-img');
+        if (!qrImg) return;
+        const link = document.createElement('a');
+        link.href = qrImg.src;
+        const slug = qrImg.dataset.slug || 'qr';
+        link.download = `qr_${slug}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function shareQrCode() {
         const qrImg = document.getElementById('qr-img');
         if (!qrImg) return;
         const qrUrl = qrImg.src;
 
-        // If the browser supports Web Share API
         if (navigator.share) {
             navigator.share({
                 title: 'QR code for my short URL',
                 text: 'Here is the QR code for my short link.',
                 url: qrUrl
-            }).catch(() => {
-                // user canceled or share failed, no need to alert
-            });
+            }).catch(() => {});
         } else {
-            // Fallback: open QR in new tab (user can share/download from there)
             window.open(qrUrl, '_blank');
         }
     }

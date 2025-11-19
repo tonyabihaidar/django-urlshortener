@@ -2,6 +2,7 @@ import string
 import random
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User   # <-- add this
 
 
 def generate_random_slug(length=6):
@@ -10,6 +11,13 @@ def generate_random_slug(length=6):
 
 
 class ShortURL(models.Model):
+    user = models.ForeignKey(    # <-- new
+        User,
+        on_delete=models.CASCADE,
+        related_name='short_urls',
+        null=True,
+        blank=True,
+    )
     slug = models.SlugField(
         max_length=10,
         unique=True,
@@ -21,15 +29,12 @@ class ShortURL(models.Model):
     clicks = models.PositiveIntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        # Auto-generate slug if empty
         if not self.slug:
             new_slug = generate_random_slug()
-            # Ensure uniqueness
             while ShortURL.objects.filter(slug=new_slug).exists():
                 new_slug = generate_random_slug()
             self.slug = new_slug
         else:
-            # Clean custom slug if user provided one
             self.slug = slugify(self.slug)
         super().save(*args, **kwargs)
 

@@ -21,6 +21,7 @@
                 <div class="control">
                     {{ form.custom_slug }}
                 </div>
+                <p id="slug-help" class="help"></p>
                 {% if form.custom_slug.errors %}
                     <p class="help is-danger">{{ form.custom_slug.errors.0 }}</p>
                 {% endif %}
@@ -36,4 +37,44 @@
         </form>
     </div>
 </div>
+
+<script>
+    const slugInput = document.getElementById('id_custom_slug');
+    const help = document.getElementById('slug-help');
+
+    if (slugInput && help) {
+        let timeoutId = null;
+
+        slugInput.addEventListener('input', function () {
+            const value = slugInput.value.trim();
+            if (!value) {
+                help.textContent = '';
+                help.className = 'help';
+                return;
+            }
+
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
+            timeoutId = setTimeout(() => {
+                fetch(`{% url 'shortener:check_slug' %}?slug=${encodeURIComponent(value)}`)
+                    .then(resp => resp.json())
+                    .then(data => {
+                        help.textContent = data.message || '';
+                        help.className = 'help';
+                        if (data.valid && data.available) {
+                            help.classList.add('is-success');
+                        } else if (data.valid && !data.available) {
+                            help.classList.add('is-danger');
+                        }
+                    })
+                    .catch(() => {
+                        help.textContent = '';
+                        help.className = 'help';
+                    });
+            }, 400);
+        });
+    }
+</script>
 {% endblock %}

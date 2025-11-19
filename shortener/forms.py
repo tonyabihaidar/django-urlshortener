@@ -22,11 +22,16 @@ class ShortURLForm(forms.ModelForm):
             raise forms.ValidationError("This slug is already taken.")
         return slug
 
-    def save(self, commit=True):
+    def save(self, user=None, commit=True):
+        """
+        Attach the link to the given user (if provided).
+        """
         instance = super().save(commit=False)
         slug = self.cleaned_data.get('custom_slug')
         if slug:
             instance.slug = slug
+        if user is not None and instance.user_id is None:
+            instance.user = user
         if commit:
             instance.save()
         return instance

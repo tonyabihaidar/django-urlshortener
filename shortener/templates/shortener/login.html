@@ -1,0 +1,49 @@
+{% extends "shortener/base.html" %}
+
+{% block content %}
+<h2 class="title is-4">Log in</h2>
+
+<div class="box form-card">
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="notification is-danger is-light">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="field">
+                <label class="label" for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+                <div class="control">
+                    {{ field }}
+                </div>
+
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="field mt-4">
+            <div class="control">
+                <button type="submit" class="button is-primary is-fullwidth">
+                    Log in
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p>
+    Don’t have an account?
+    <a href="{% url 'shortener:signup' %}">Sign up.</a>
+</p>
+{% endblock %}

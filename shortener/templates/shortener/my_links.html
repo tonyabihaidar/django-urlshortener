@@ -1,0 +1,36 @@
+{% extends "shortener/base.html" %}
+
+{% block content %}
+<h2 class="title is-4">My links</h2>
+
+{% if links %}
+    <table class="table is-fullwidth">
+        <thead>
+        <tr>
+            <th>Short</th>
+            <th>Original URL</th>
+            <th>Clicks</th>
+            <th>Created</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for link in links %}
+            <tr>
+                <td>
+                    <a href="{% url 'shortener:detail' slug=link.slug %}">
+                        {{ request.build_absolute_uri|slice:":-1" }}/{{ link.slug }}
+                    </a>
+                </td>
+                <td style="max-width: 320px; overflow-wrap: anywhere;">
+                    <a href="{{ link.target_url }}" target="_blank">{{ link.target_url }}</a>
+                </td>
+                <td>{{ link.clicks }}</td>
+                <td>{{ link.created_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You don’t have any links yet. <a href="{% url 'shortener:home' %}">Create one now</a>.</p>
+{% endif %}
+{% endblock %}
