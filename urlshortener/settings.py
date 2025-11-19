@@ -32,6 +32,8 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 raw_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', '')
 ALLOWED_HOSTS = [h.strip() for h in raw_hosts.split(',') if h.strip()]
 
+raw_csrf_origins = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '')
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in raw_csrf_origins.split(',') if o.strip()]
 
 # Application definition
 
