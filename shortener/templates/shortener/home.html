@@ -35,39 +35,5 @@
             </div>
         </form>
     </div>
-
-    <div class="column is-half">
-        <h2 class="title is-4">Recent links</h2>
-        {% if latest_links %}
-            <table class="table is-fullwidth">
-                <thead>
-                <tr>
-                    <th>Short</th>
-                    <th>Target</th>
-                    <th>Clicks</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for link in latest_links %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'shortener:detail' slug=link.slug %}">
-                                {{ base_url }}/{{ link.slug }}
-                            </a>
-                        </td>
-                        <td style="max-width: 280px; overflow-wrap: anywhere;">
-                            <a href="{{ link.target_url }}" target="_blank">
-                                {{ link.target_url }}
-                            </a>
-                        </td>
-                        <td>{{ link.clicks }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No links yet. Create one!</p>
-        {% endif %}
-    </div>
 </div>
 {% endblock %}
