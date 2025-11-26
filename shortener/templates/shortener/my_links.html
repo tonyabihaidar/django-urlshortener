@@ -33,4 +33,7 @@
 {% else %}
     <p>You don’t have any links yet. <a href="{% url 'shortener:home' %}">Create one now</a>.</p>
 {% endif %}
+    <div class="control">
+        <a class="button is-light" href="{% url 'shortener:home' %}">Back</a>
+    </div>
 {% endblock %}
